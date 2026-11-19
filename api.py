@@ -169,7 +169,7 @@ HTML = """<!DOCTYPE html>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  body { font-family: system-ui, sans-serif; margin: 0; background: #FFFFFF; color: #FF0000; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a ; color: #e2e8f0; }
   header { padding: 20px 28px 12px; border-bottom: 1px solid #1e293b; }
   h1 { margin: 0; font-size: 22px; }
   #status { font-size: 12px; color: #94a3b8; margin-top: 6px; }
@@ -208,7 +208,7 @@ HTML = """<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>🌍 DİAN</h1>
+  <h1>🌍 MedMap</h1>
   <div id="status">Loading…</div>
 </header>
 
