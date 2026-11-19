@@ -165,11 +165,11 @@ HTML = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DİAN</title>
+<title>MedMap</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+  body { font-family: system-ui, sans-serif; margin: 0; background: #FFFFFF; color: #FF0000; }
   header { padding: 20px 28px 12px; border-bottom: 1px solid #1e293b; }
   h1 { margin: 0; font-size: 22px; }
   #status { font-size: 12px; color: #94a3b8; margin-top: 6px; }
