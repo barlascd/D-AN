@@ -166,6 +166,10 @@ HTML = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MedMap</title>
+<script>
+  /* Tema: kaydedilmiş seçimi sayfa çizilmeden uygula (varsayılan: koyu) */
+  try { if (localStorage.getItem('medmap-theme') === 'light') document.documentElement.setAttribute('data-theme', 'light'); } catch (e) {}
+</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -204,9 +208,53 @@ HTML = """<!DOCTYPE html>
     .mapwrap { margin: 12px 12px 0; }
     #map { height: 300px; }
   }
+
+  /* ===== Tema barı (yeni) ===== */
+  #themebar { display: flex; align-items: center; justify-content: space-between; padding: 8px 28px; background: #0b1220; border-bottom: 1px solid #1e293b; font-size: 13px; color: #94a3b8; }
+  #themebar .toggle { display: inline-flex; gap: 4px; padding: 3px; border-radius: 20px; background: #1e293b; }
+  #themebar .toggle button { border: 0; background: transparent; color: #94a3b8; padding: 4px 12px; border-radius: 16px; cursor: pointer; font-size: 14px; }
+  #themebar .toggle button.on { background: #3b82f6; color: #fff; }
+  @media (max-width: 800px) { #themebar { padding: 8px 12px; } }
+
+  /* ===== Açık tema: krem tonları, daha beyaz (yeni) ===== */
+  html[data-theme="light"] body { background: #faf6ee; color: #3b3226; }
+  html[data-theme="light"] header { border-bottom-color: #e8dfcc; }
+  html[data-theme="light"] #status { color: #8a7d68; }
+  html[data-theme="light"] .mapwrap { border-color: #e8dfcc; }
+  html[data-theme="light"] #map { background: #f3ecdc; }
+  html[data-theme="light"] .dark-tiles { filter: sepia(.18) saturate(.85) brightness(1.03); }
+  html[data-theme="light"] .mapbar button { background: #fffaf0dd; color: #3b3226; }
+  html[data-theme="light"] .mapbar button:hover { background: #3b82f6; color: #fff; }
+  html[data-theme="light"] .maplegend { background: #fffaf0e6; color: #5b5040; }
+  html[data-theme="light"] .leaflet-popup-content-wrapper { background: #fffdf8; color: #3b3226; }
+  html[data-theme="light"] .leaflet-popup-tip { background: #fffdf8; }
+  html[data-theme="light"] .leaflet-popup-content b { color: #1f1a12; }
+  html[data-theme="light"] .leaflet-popup-content a[style*="60a5fa"] { color: #2563eb !important; }
+  html[data-theme="light"] .panel { background: #fffdf8; box-shadow: 0 0 0 1px #eadfca; }
+  html[data-theme="light"] .filters button { background: #efe6d3; color: #3b3226; }
+  html[data-theme="light"] .filters button.active { background: #3b82f6; color: #fff; }
+  html[data-theme="light"] .country { border-bottom-color: #eadfca; }
+  html[data-theme="light"] .country:hover, html[data-theme="light"] .country.active { color: #2563eb; }
+  html[data-theme="light"] .item { background: #fbf5e6; }
+  html[data-theme="light"] .item a { color: #1f1a12; }
+  html[data-theme="light"] .meta { color: #8a7d68; }
+  html[data-theme="light"] .warn { color: #b45309; }
+  html[data-theme="light"] .item div[style*="cbd5e1"] { color: #5b5040 !important; }
+  html[data-theme="light"] .items-container div[style*="94a3b8"] { color: #8a7d68 !important; }
+  html[data-theme="light"] #themebar { background: #f3ead6; border-bottom-color: #e8dfcc; color: #8a7d68; }
+  html[data-theme="light"] #themebar .toggle { background: #e9dfc8; }
+  html[data-theme="light"] #themebar .toggle button { color: #8a7d68; }
+  html[data-theme="light"] #themebar .toggle button.on { background: #3b82f6; color: #fff; }
 </style>
 </head>
 <body>
+<div id="themebar">
+  <span>Theme</span>
+  <div class="toggle" role="group" aria-label="Theme">
+    <button id="theme-light" type="button" title="Light">☀️</button>
+    <button id="theme-dark" type="button" title="Dark">🌙</button>
+  </div>
+</div>
 <header>
   <h1>🌍 MedMap</h1>
   <div id="status">Loading…</div>
@@ -432,6 +480,24 @@ HTML = """<!DOCTYPE html>
   });
 
   loadData();
+</script>
+<script>
+  /* Tema geçişi (yeni): ☀️ = açık krem, 🌙 = mevcut koyu tema */
+  (function () {
+    const root = document.documentElement;
+    const bLight = document.getElementById('theme-light');
+    const bDark = document.getElementById('theme-dark');
+    function setTheme(t) {
+      if (t === 'light') root.setAttribute('data-theme', 'light');
+      else root.removeAttribute('data-theme');
+      bLight.classList.toggle('on', t === 'light');
+      bDark.classList.toggle('on', t !== 'light');
+      try { localStorage.setItem('medmap-theme', t); } catch (e) {}
+    }
+    bLight.addEventListener('click', () => setTheme('light'));
+    bDark.addEventListener('click', () => setTheme('dark'));
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  })();
 </script>
 </body>
 </html>"""
